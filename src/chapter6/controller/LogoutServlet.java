@@ -1,7 +1,6 @@
 package chapter6.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
@@ -9,16 +8,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-import chapter6.beans.User;
-import chapter6.beans.UserMessage;
 import chapter6.logging.InitApplication;
-import chapter6.service.MessageService;
 
-@WebServlet(urlPatterns = { "/index.jsp" })
-public class TopServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-
+@WebServlet(urlPatterns = { "/logout" })
+public class LogoutServlet extends HttpServlet {
 	/**
 	* ロガーインスタンスの生成
 	*/
@@ -28,31 +23,27 @@ public class TopServlet extends HttpServlet {
 	* デフォルトコンストラクタ
 	* アプリケーションの初期化を実施する。
 	*/
-	public TopServlet() {
+	public LogoutServlet() {
 		InitApplication application = InitApplication.getInstance();
 		application.init();
 
 	}
 
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
+			throws ServletException, IOException {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
 
-		boolean isShowMessageForm = false;
-		User user = (User) request.getSession().getAttribute("loginUser");
-		if (user != null) {
-			isShowMessageForm = true;
-		}
+		HttpSession session = request.getSession();
 
-		List<UserMessage> messages = new MessageService().select();
-
-		request.setAttribute("messages", messages);
-		request.setAttribute("isShowMessageForm", isShowMessageForm);
-		request.getRequestDispatcher("/top.jsp").forward(request, response);
+		// セッションの無効化
+		session.invalidate();
+		response.sendRedirect("./");
 	}
 }
