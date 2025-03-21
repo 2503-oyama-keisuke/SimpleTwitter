@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.lang.StringUtils;
+
 import chapter6.beans.User;
 import chapter6.exception.NoRowsUpdatedRuntimeException;
 import chapter6.exception.SQLRuntimeException;
@@ -180,7 +182,7 @@ public class UserDao {
 		}
 	}
 
-	public void update(Connection connection, User user, boolean isPassword) {
+	public void update(Connection connection, User user) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -197,7 +199,8 @@ public class UserDao {
 			sql.append("    email = ?, ");
 
 			// パスワード入力有の場合の処理
-			if (isPassword) {
+			String password = user.getPassword();
+			if (!StringUtils.isBlank(password)) {
 				sql.append("    password = ?, ");
 			}
 			sql.append("    description = ?, ");
@@ -211,7 +214,7 @@ public class UserDao {
 			ps.setString(3, user.getEmail());
 
 			// パスワード入力有無による分岐
-			if (isPassword) {
+			if (!StringUtils.isBlank(password)) {
 				ps.setString(4, user.getPassword());
 				ps.setString(5, user.getDescription());
 				ps.setInt(6, user.getId());

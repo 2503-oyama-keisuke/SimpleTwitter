@@ -134,15 +134,15 @@ public class UserService {
 		try {
 			// パスワード入力の有無を判定
 			String password = user.getPassword();
-			boolean isPassword = !StringUtils.isBlank(password);
+
 			// パスワード暗号化
-			if (isPassword) {
+			if (!StringUtils.isBlank(password)) {
 				String encPassword = CipherUtil.encrypt(user.getPassword());
 				user.setPassword(encPassword);
 			}
 
 			connection = getConnection();
-			new UserDao().update(connection, user, isPassword);
+			new UserDao().update(connection, user);
 			commit(connection);
 		} catch (RuntimeException e) {
 			rollback(connection);

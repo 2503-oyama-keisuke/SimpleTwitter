@@ -113,7 +113,6 @@ public class SettingServlet extends HttpServlet {
 
 		String name = user.getName();
 		String account = user.getAccount();
-		//		String password = user.getPassword();
 		String email = user.getEmail();
 
 		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
