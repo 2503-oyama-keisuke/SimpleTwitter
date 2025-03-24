@@ -99,17 +99,16 @@ public class SignUpServlet extends HttpServlet {
 		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
 			errorMessages.add("名前は20文字以下で入力してください");
 		}
-
 		if (StringUtils.isEmpty(account)) {
 			errorMessages.add("アカウント名を入力してください");
 		} else if (20 < account.length()) {
 			errorMessages.add("アカウント名は20文字以下で入力してください");
+		} else if (new UserService().select(account) != null) {
+			errorMessages.add("すでに存在するアカウントです");
 		}
-
 		if (StringUtils.isEmpty(password)) {
 			errorMessages.add("パスワードを入力してください");
 		}
-
 		if (!StringUtils.isEmpty(email) && (50 < email.length())) {
 			errorMessages.add("メールアドレスは50文字以下で入力してください");
 		}
