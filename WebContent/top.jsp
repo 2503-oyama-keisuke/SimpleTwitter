@@ -76,6 +76,15 @@
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+					<!-- 仕様追加「つぶやき削除」 -->
+					<div class="delete">
+						<c:if test="${ message.userId == loginUser.id }">
+							<form action="deleteMessage" method="post" >
+								<input name="message_id" type="hidden" value="${ message.id }">
+								<input type="submit" value="削除">
+							</form>
+						</c:if>
+					</div>
 				</div>
 			</c:forEach>
 		</div>
