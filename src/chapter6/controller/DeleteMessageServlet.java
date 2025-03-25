@@ -39,7 +39,7 @@ public class DeleteMessageServlet extends HttpServlet {
 				" : " + new Object() {
 				}.getClass().getEnclosingMethod().getName());
 
-		int messageId = Integer.parseInt(request.getParameter("message_id"));
+		String messageId = request.getParameter("message_id");
 		new MessageService().delete(messageId);
 
 		response.sendRedirect("./");
