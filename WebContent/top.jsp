@@ -58,8 +58,8 @@
 			<c:if test="${ isShowMessageForm }">
 				<form action="message" method="post">
 					いま、どうしてる？<br />
-					<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
-					<br /> <input type="submit" value="つぶやく">（140文字まで）
+					<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea><br />
+					<input type="submit" value="つぶやく">（140文字まで）
 				</form>
 			</c:if>
 		</div>
@@ -69,10 +69,12 @@
 
 				<div class="message">
 					<div class="account-name">
-						<span class="account"> <a
-							href="./?user_id=<c:out value="${message.userId}"/>"> <c:out
-									value="${message.account}" />
-						</a></span> <span class="name"><c:out value="${message.name}" /></span>
+						<span class="account">
+							<a href="./?user_id=<c:out value="${message.userId}"/>">
+						 		<c:out value="${message.account}" />
+							</a>
+						</span>
+						<span class="name"><c:out value="${message.name}" /></span>
 					</div>
 
 					<div class="text">
@@ -98,6 +100,7 @@
 							</form>
 						</c:if>
 					</div>
+
 				</div>
 			</c:forEach>
 		</div>

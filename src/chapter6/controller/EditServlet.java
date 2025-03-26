@@ -59,16 +59,12 @@ public class EditServlet extends HttpServlet {
 
 		if (message == null) {
 			errorMessages.add("不正なパラメータが入力されました");
-		} else {
-			request.setAttribute("message", message);
-		}
-
-		if (errorMessages.size() != 0) {
 			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
 			return;
 		}
 
+		request.setAttribute("message", message);
 		request.getRequestDispatcher("edit.jsp").forward(request, response);
 	}
 
