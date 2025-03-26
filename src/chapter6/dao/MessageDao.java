@@ -78,11 +78,9 @@ public class MessageDao {
 
 		PreparedStatement ps = null;
 		try {
-			StringBuilder sql = new StringBuilder();
-			sql.append("DELETE FROM messages ");
-			sql.append("WHERE id = ? ");
+			String sql = "DELETE FROM messages WHERE id = ?";
 
-			ps = connection.prepareStatement(sql.toString());
+			ps = connection.prepareStatement(sql);
 
 			ps.setString(1, messageId);
 

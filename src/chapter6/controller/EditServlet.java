@@ -47,9 +47,12 @@ public class EditServlet extends HttpServlet {
 		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 		String messageId = request.getParameter("message_id");
+		// IDの検索結果messageによってパラメータの適否を判別
 		Message message = null;
 
-		if (messageId.matches("\\d*")) {
+		// IDが数字であれば、messageに検索結果を格納
+		// 該当IDなしの場合、nullが返される
+		if (messageId.matches("\\d+")) {
 			Integer id = Integer.parseInt(messageId);
 			message = new MessageService().select(id);
 		}
@@ -85,7 +88,7 @@ public class EditServlet extends HttpServlet {
 		Integer messageId = Integer.parseInt(request.getParameter("message_id"));
 		if (!isValid(text, errorMessages)) {
 			session.setAttribute("errorMessages", errorMessages);
-			response.sendRedirect("edit.jsp");
+			response.sendRedirect("./");
 			return;
 		}
 

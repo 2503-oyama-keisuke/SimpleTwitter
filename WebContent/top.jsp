@@ -11,7 +11,9 @@
 <link href="./css/style.css" rel="stylesheet" type="text/css">
 </head>
 <body>
+
 	<div class="main-contents">
+
 		<div class="header">
 			<c:if test="${empty loginUser }">
 				<a href="login">ログイン</a>
@@ -23,6 +25,7 @@
 				<a href="logout">ログアウト</a>
 			</c:if>
 		</div>
+
 		<c:if test="${ not empty loginUser }">
 			<div class="profile">
 				<div class="name">
@@ -39,6 +42,7 @@
 				</div>
 			</div>
 		</c:if>
+
 		<c:if test="${ not empty errorMessages }">
 			<div class="errorMessages">
 				<ul>
@@ -59,23 +63,26 @@
 				</form>
 			</c:if>
 		</div>
+
 		<div class="messages">
 			<c:forEach items="${messages}" var="message">
+
 				<div class="message">
 					<div class="account-name">
 						<span class="account"> <a
 							href="./?user_id=<c:out value="${message.userId}"/>"> <c:out
 									value="${message.account}" />
-						</a>
-						</span> <span class="name"><c:out value="${message.name}" /></span>
+						</a></span> <span class="name"><c:out value="${message.name}" /></span>
 					</div>
+
 					<div class="text">
-						<c:out value="${message.text}" />
+						<pre><c:out value="${message.text}" /></pre>
 					</div>
 					<div class="date">
 						<fmt:formatDate value="${message.createdDate}"
 							pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
+
 					<!-- 仕様追加「つぶやき編集」・「つぶやき削除」 -->
 					<div class="editAndDelete">
 						<c:if test="${ message.userId == loginUser.id }">
@@ -94,7 +101,9 @@
 				</div>
 			</c:forEach>
 		</div>
+
 		<div class="copyright">Copyright(c)大山佳祐</div>
 	</div>
+
 </body>
 </html>
