@@ -97,7 +97,7 @@ public class MessageService {
 		}
 	}
 
-	public void delete(String messageId) {
+	public void delete(Integer messageId) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +

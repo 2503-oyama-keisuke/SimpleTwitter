@@ -86,15 +86,17 @@ public class EditServlet extends HttpServlet {
 
 		String text = request.getParameter("text");
 		Integer messageId = Integer.parseInt(request.getParameter("message_id"));
-		if (!isValid(text, errorMessages)) {
-			session.setAttribute("errorMessages", errorMessages);
-			response.sendRedirect("./");
-			return;
-		}
 
 		Message message = new Message();
 		message.setText(text);
 		message.setId(messageId);
+
+		if (!isValid(text, errorMessages)) {
+			session.setAttribute("errorMessages", errorMessages);
+			session.setAttribute("message", message);
+			response.sendRedirect("edit.jsp");
+			return;
+		}
 
 		new MessageService().update(message);
 		response.sendRedirect("./");
