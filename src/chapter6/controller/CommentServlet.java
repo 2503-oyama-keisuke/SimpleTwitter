@@ -14,12 +14,13 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
-import chapter6.beans.Message;
+import chapter6.beans.Comment;
+import chapter6.beans.User;
 import chapter6.logging.InitApplication;
-import chapter6.service.MessageService;
+import chapter6.service.CommentService;
 
-@WebServlet(urlPatterns = { "/edit" })
-public class EditServlet extends HttpServlet {
+@WebServlet(urlPatterns = { "/comment" })
+public class CommentServlet extends HttpServlet {
 
 	/**
 	* ロガーインスタンスの生成
@@ -30,42 +31,10 @@ public class EditServlet extends HttpServlet {
 	* デフォルトコンストラクタ
 	* アプリケーションの初期化を実施する。
 	*/
-	public EditServlet() {
+	public CommentServlet() {
 		InitApplication application = InitApplication.getInstance();
 		application.init();
-	}
 
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-
-		log.info(new Object() {
-		}.getClass().getEnclosingClass().getName() +
-				" : " + new Object() {
-				}.getClass().getEnclosingMethod().getName());
-
-		HttpSession session = request.getSession();
-		List<String> errorMessages = new ArrayList<String>();
-		String messageId = request.getParameter("message_id");
-		// IDの検索結果messageによってパラメータの適否を判別
-		Message message = null;
-
-		// IDが数字であれば、messageに検索結果を格納
-		// 該当IDなしの場合、nullが返される
-		if (messageId.matches("\\d+") && messageId != null) {
-			Integer id = Integer.parseInt(messageId);
-			message = new MessageService().select(id);
-		}
-
-		if (message == null) {
-			errorMessages.add("不正なパラメータが入力されました");
-			session.setAttribute("errorMessages", errorMessages);
-			response.sendRedirect("./");
-			return;
-		}
-
-		request.setAttribute("message", message);
-		request.getRequestDispatcher("edit.jsp").forward(request, response);
 	}
 
 	@Override
@@ -81,20 +50,22 @@ public class EditServlet extends HttpServlet {
 		List<String> errorMessages = new ArrayList<String>();
 
 		String text = request.getParameter("text");
-		Integer messageId = Integer.parseInt(request.getParameter("message_id"));
-
-		Message message = new Message();
-		message.setText(text);
-		message.setId(messageId);
-
 		if (!isValid(text, errorMessages)) {
 			session.setAttribute("errorMessages", errorMessages);
-			session.setAttribute("message", message);
-			response.sendRedirect("edit.jsp");
+			response.sendRedirect("./");
 			return;
 		}
 
-		new MessageService().update(message);
+		Comment comment = new Comment();
+		comment.setText(text);
+
+		User user = (User) session.getAttribute("loginUser");
+		comment.setUserId(user.getId());
+
+		String messageId = request.getParameter("message_id");
+		comment.setMessageId(Integer.parseInt(messageId));
+
+		new CommentService().insert(comment);
 		response.sendRedirect("./");
 	}
 
