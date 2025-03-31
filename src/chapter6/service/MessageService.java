@@ -77,29 +77,26 @@ public class MessageService {
 
 			// userIdを数値idとして取得
 			Integer id = null;
-			if (!StringUtils.isEmpty(userId)) {
+			if (!StringUtils.isBlank(userId)) {
 				id = Integer.parseInt(userId);
 			}
 
-			String startDate;
-			String endDate;
-
-			if (!StringUtils.isEmpty(start)) {
-				startDate = start + " 00:00:00";
+			if (!StringUtils.isBlank(start)) {
+				start += " 00:00:00";
 			} else {
-				startDate = "2020/01/01 00:00:00";
+				start = "2020/01/01 00:00:00";
 			}
 
-			if (!StringUtils.isEmpty(end)) {
-				endDate = end + " 23:59:59";
+			if (!StringUtils.isBlank(end)) {
+				end += " 23:59:59";
 			} else {
 				Date now = new Date();
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 				String nowDate = sdf.format(now);
-				endDate = nowDate;
+				end = nowDate;
 			}
 
-			List<UserMessage> messages = new UserMessageDao().select(connection, LIMIT_NUM, id, startDate, endDate);
+			List<UserMessage> messages = new UserMessageDao().select(connection, LIMIT_NUM, id, start, end);
 			commit(connection);
 
 			return messages;

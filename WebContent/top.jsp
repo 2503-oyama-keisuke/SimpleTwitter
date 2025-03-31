@@ -44,7 +44,6 @@
 		</c:if>
 
 		<div class="filteringCalendar">
-
 			<form method="get">
 				日付:
 				<input name="start" type="date" value="${start}">
@@ -79,6 +78,7 @@
 			<c:forEach items="${messages}" var="message">
 
 				<div class="message">
+
 					<div class="account-name">
 						<span class="account">
 							<a href="./?user_id=<c:out value="${message.userId}"/>">
@@ -89,6 +89,7 @@
 					</div>
 
 					<div class="text"> <pre><c:out value="${message.text}" /></pre> </div>
+
 					<div class="date">
 						<fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 					</div>
@@ -122,30 +123,35 @@
 									</div>
 
 									<div class="text"> <pre><c:out value="${comment.text}" /></pre> </div>
+
 									<div class="date">
 										<fmt:formatDate value="${comment.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
 									</div>
+
 								</c:if>
 							</div>
+
 						</c:forEach>
 
 						<div class="commentForm-area">
+							<c:if test="${ not empty loginUser }">
+								<form action="comment" method="post">
+									<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
+									<input name="message_id" type="hidden" value="${message.id}"> <br />
+									<input type="submit" value="返信">（140文字まで）
+								</form>
+							</c:if>
+						</div>
 
-						<c:if test="${ not empty loginUser }">
-
-							<form action="comment" method="post">
-								<textarea name="text" cols="100" rows="5" class="tweet-box"></textarea>
-								<input name="message_id" type="hidden" value="${message.id}"> <br />
-								<input type="submit" value="返信">（140文字まで）
-							</form>
-						</c:if>
 					</div>
+
 				</div>
 
 			</c:forEach>
 		</div>
 
 		<div class="copyright">Copyright(c)大山佳祐</div>
+
 	</div>
 
 </body>

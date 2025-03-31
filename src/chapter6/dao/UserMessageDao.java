@@ -32,7 +32,7 @@ public class UserMessageDao {
 
 	}
 
-	public List<UserMessage> select(Connection connection, int num, Integer id, String startDate, String endDate) {
+	public List<UserMessage> select(Connection connection, int num, Integer id, String start, String end) {
 
 		log.info(new Object() {
 		}.getClass().getEnclosingClass().getName() +
@@ -60,8 +60,8 @@ public class UserMessageDao {
 
 			ps = connection.prepareStatement(sql.toString());
 
-			ps.setString(1, startDate);
-			ps.setString(2, endDate);
+			ps.setString(1, start);
+			ps.setString(2, end);
 			if (id != null) {
 				ps.setInt(3, id);
 			}
