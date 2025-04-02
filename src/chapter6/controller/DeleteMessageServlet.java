@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import chapter6.logging.InitApplication;
 import chapter6.service.MessageService;
 
-@WebServlet(urlPatterns = { "/deleteMessage" })
+@WebServlet(urlPatterns = { "/delete" })
 public class DeleteMessageServlet extends HttpServlet {
 
 	/**
